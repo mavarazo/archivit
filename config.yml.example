@@ -1,0 +1,12 @@
+---
+rules:
+- name: bingo
+  target: Bingo
+  keywords:
+  - bingo
+  - foo
+- name: bongo
+  target: Bongo
+  keywords:
+  - bongo
+  - bar

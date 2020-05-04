@@ -1,0 +1,11 @@
+version: "3"
+
+services: 
+    archivit:
+        build: "."
+        env_file:
+            - ".env"
+        restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+        stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+        volumes:
+            - "${APP_CONFIG_VOLUME:-.:/app/config}"
