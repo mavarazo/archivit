@@ -18,13 +18,13 @@ class ArchivitProcessor():
         if content:
             for rule in self.rules:
                 if rule['keywords']:
-                    maximum = len(rule['keywords'])
-                    matches = len(self._words_in_string(rule['keywords'], content))
-                    score = 100 / maximum * matches
+                    matches = self._words_in_string(rule['keywords'], content)
+                    score = 100 / len(rule['keywords']) * len(matches)
                     if score > 49:
-                        result.append((rule, maximum, matches, score))
-
-        return max(result, key = lambda i : i[3])[0] if result else None
+                        result.append((rule, matches, score))
+        if result:
+            return max(result, key = lambda i : i[2])
+        return None, list(), 0
 
 
     def _get_pdf_content(self, file_path):
