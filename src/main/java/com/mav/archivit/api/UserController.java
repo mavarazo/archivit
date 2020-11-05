@@ -4,6 +4,7 @@ import com.mav.archivit.model.User;
 import com.mav.archivit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class UserController {
   }
 
   @RequestMapping("/")
+  @CrossOrigin(origins = "http://localhost:4200")
   @ResponseBody
   public ResponseEntity<List<User>> index() {
     List<User> users = (List<User>) userRepository.findAll();
