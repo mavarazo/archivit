@@ -1,11 +1,15 @@
 package com.mav.archivit.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Embeddable
+@Entity
+@Table(name = "tags")
 public class Tag {
 
-  private long id;
+  @Id @GeneratedValue private Long id;
   private String name;
   private int value;
 
@@ -31,5 +35,36 @@ public class Tag {
 
   public void setValue(int value) {
     this.value = value;
+  }
+
+  public static final class TagBuilder {
+    private Tag tag;
+
+    private TagBuilder() {
+      tag = new Tag();
+    }
+
+    public static TagBuilder aTag() {
+      return new TagBuilder();
+    }
+
+    public TagBuilder withId(long id) {
+      tag.setId(id);
+      return this;
+    }
+
+    public TagBuilder withName(String name) {
+      tag.setName(name);
+      return this;
+    }
+
+    public TagBuilder withValue(int value) {
+      tag.setValue(value);
+      return this;
+    }
+
+    public Tag build() {
+      return tag;
+    }
   }
 }
