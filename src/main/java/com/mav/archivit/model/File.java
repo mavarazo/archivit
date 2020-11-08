@@ -18,12 +18,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name = "files")
@@ -32,22 +30,30 @@ public class File {
 
   @Id @GeneratedValue private Long id;
 
-  @CreatedDate
-  @Temporal(TIMESTAMP)
-  private Date created;
+  @CreatedDate private LocalDateTime created;
 
-  @LastModifiedDate
-  @Temporal(TIMESTAMP)
-  private Date updated;
+  @LastModifiedDate private LocalDateTime updated;
 
-  @ManyToOne @JsonBackReference private User user;
+  @NotNull @ManyToOne @JsonBackReference private User user;
 
-  private String name;
-  private String path;
+  @NotNull private String name;
+  private String extension;
+  @NotNull private String path;
+  @NotNull private Boolean isRegularFile = Boolean.TRUE;
+  @NotNull private LocalDateTime creationTime;
+  @NotNull private LocalDateTime lastAccessTime;
+  @NotNull private LocalDateTime lastModifiedTime;
+  @NotNull private String fileKey;
   private long size;
 
   @Column(columnDefinition = "TEXT")
   private String content;
+
+  @OneToMany(mappedBy = "parentFile")
+  @JsonManagedReference
+  private List<File> children = new ArrayList<>();
+
+  @ManyToOne @JsonBackReference private File parentFile;
 
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
@@ -55,12 +61,6 @@ public class File {
       joinColumns = @JoinColumn(name = "file_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
   private List<Tag> tags = new ArrayList<>();
-
-  @OneToMany(mappedBy = "parentFile")
-  @JsonBackReference
-  private List<File> children = new ArrayList<>();
-
-  @ManyToOne @JsonManagedReference private File parentFile;
 
   public Long getId() {
     return id;
@@ -70,19 +70,19 @@ public class File {
     this.id = id;
   }
 
-  public Date getCreated() {
+  public LocalDateTime getCreated() {
     return created;
   }
 
-  public void setCreated(Date created) {
+  public void setCreated(LocalDateTime created) {
     this.created = created;
   }
 
-  public Date getUpdated() {
+  public LocalDateTime getUpdated() {
     return updated;
   }
 
-  public void setUpdated(Date updated) {
+  public void setUpdated(LocalDateTime updated) {
     this.updated = updated;
   }
 
@@ -102,12 +102,60 @@ public class File {
     this.name = name;
   }
 
+  public String getExtension() {
+    return extension;
+  }
+
+  public void setExtension(String extension) {
+    this.extension = extension;
+  }
+
   public String getPath() {
     return path;
   }
 
   public void setPath(String path) {
     this.path = path;
+  }
+
+  public Boolean getRegularFile() {
+    return isRegularFile;
+  }
+
+  public void setRegularFile(Boolean regularFile) {
+    isRegularFile = regularFile;
+  }
+
+  public LocalDateTime getCreationTime() {
+    return creationTime;
+  }
+
+  public void setCreationTime(LocalDateTime creationTime) {
+    this.creationTime = creationTime;
+  }
+
+  public LocalDateTime getLastAccessTime() {
+    return lastAccessTime;
+  }
+
+  public void setLastAccessTime(LocalDateTime lastAccessTime) {
+    this.lastAccessTime = lastAccessTime;
+  }
+
+  public LocalDateTime getLastModifiedTime() {
+    return lastModifiedTime;
+  }
+
+  public void setLastModifiedTime(LocalDateTime lastModifiedTime) {
+    this.lastModifiedTime = lastModifiedTime;
+  }
+
+  public String getFileKey() {
+    return fileKey;
+  }
+
+  public void setFileKey(String fileKey) {
+    this.fileKey = fileKey;
   }
 
   public long getSize() {
@@ -126,14 +174,6 @@ public class File {
     this.content = content;
   }
 
-  public List<Tag> getTags() {
-    return tags;
-  }
-
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
-  }
-
   public List<File> getChildren() {
     return children;
   }
@@ -148,6 +188,14 @@ public class File {
 
   public void setParentFile(File parentFile) {
     this.parentFile = parentFile;
+  }
+
+  public List<Tag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
 
   public static final class FileBuilder {
@@ -166,12 +214,12 @@ public class File {
       return this;
     }
 
-    public FileBuilder withCreated(Date created) {
+    public FileBuilder withCreated(LocalDateTime created) {
       file.setCreated(created);
       return this;
     }
 
-    public FileBuilder withUpdated(Date updated) {
+    public FileBuilder withUpdated(LocalDateTime updated) {
       file.setUpdated(updated);
       return this;
     }
@@ -186,8 +234,33 @@ public class File {
       return this;
     }
 
+    public FileBuilder withExtension(String extension) {
+      file.setExtension(extension);
+      return this;
+    }
+
     public FileBuilder withPath(String path) {
       file.setPath(path);
+      return this;
+    }
+
+    public FileBuilder withCreationTime(LocalDateTime creationTime) {
+      file.setCreationTime(creationTime);
+      return this;
+    }
+
+    public FileBuilder withLastAccessTime(LocalDateTime lastAccessTime) {
+      file.setLastAccessTime(lastAccessTime);
+      return this;
+    }
+
+    public FileBuilder withLastModifiedTime(LocalDateTime lastModifiedTime) {
+      file.setLastModifiedTime(lastModifiedTime);
+      return this;
+    }
+
+    public FileBuilder withFileKey(String fileKey) {
+      file.setFileKey(fileKey);
       return this;
     }
 
@@ -201,11 +274,6 @@ public class File {
       return this;
     }
 
-    public FileBuilder withTags(List<Tag> tags) {
-      file.setTags(tags);
-      return this;
-    }
-
     public FileBuilder withChildren(List<File> children) {
       file.setChildren(children);
       return this;
@@ -213,6 +281,11 @@ public class File {
 
     public FileBuilder withParentFile(File parentFile) {
       file.setParentFile(parentFile);
+      return this;
+    }
+
+    public FileBuilder withTags(List<Tag> tags) {
+      file.setTags(tags);
       return this;
     }
 

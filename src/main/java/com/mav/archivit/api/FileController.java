@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.StreamSupport.stream;
+
 @RestController
 @RequestMapping("/api/files")
 public class FileController {
@@ -36,7 +39,11 @@ public class FileController {
       @RequestParam(name = "userId", required = true) long userId) {
     List<File> files = new ArrayList<>();
     Optional<User> optionalUser = userRepository.findById(userId);
-    optionalUser.ifPresent(user -> fileRepository.findAllByUser(user).forEach(files::add));
+    optionalUser.ifPresent(
+        user ->
+            stream(fileRepository.findAllByUser(user).spliterator(), false)
+                .sorted(comparing(File::getPath))
+                .forEach(files::add));
     return ResponseEntity.ok(files);
   }
 }

@@ -9,10 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import java.util.Date;
-
-import static javax.persistence.TemporalType.TIMESTAMP;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -21,13 +18,9 @@ public class User {
 
   @Id @GeneratedValue private Long id;
 
-  @CreatedDate
-  @Temporal(TIMESTAMP)
-  private Date created;
+  @CreatedDate private LocalDateTime created;
 
-  @LastModifiedDate
-  @Temporal(TIMESTAMP)
-  private Date updated;
+  @LastModifiedDate private LocalDateTime updated;
 
   private String name;
   private String path;
@@ -40,19 +33,19 @@ public class User {
     this.id = id;
   }
 
-  public Date getCreated() {
+  public LocalDateTime getCreated() {
     return created;
   }
 
-  public void setCreated(Date created) {
+  public void setCreated(LocalDateTime created) {
     this.created = created;
   }
 
-  public Date getUpdated() {
+  public LocalDateTime getUpdated() {
     return updated;
   }
 
-  public void setUpdated(Date updated) {
+  public void setUpdated(LocalDateTime updated) {
     this.updated = updated;
   }
 
@@ -88,12 +81,12 @@ public class User {
       return this;
     }
 
-    public UserBuilder withCreated(Date created) {
+    public UserBuilder withCreated(LocalDateTime created) {
       user.setCreated(created);
       return this;
     }
 
-    public UserBuilder withUpdated(Date updated) {
+    public UserBuilder withUpdated(LocalDateTime updated) {
       user.setUpdated(updated);
       return this;
     }
