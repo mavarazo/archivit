@@ -1,0 +1,31 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <a href="/" class="brand-link">
+    <!--img src="" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"-->
+    <span class="brand-text font-weight-light">Archivit</span>
+  </a>
+
+  <div class="sidebar">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">Action</button>
+      <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"
+        aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        <div class="dropdown-menu" role="menu" style="" *ngFor="let user of users">
+          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+              <img src="{{ user.image }}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a class="dropdown-item d-block" href="#">{{user.name}}</a>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      </ul>
+    </nav>
+  </div>
+</aside>
