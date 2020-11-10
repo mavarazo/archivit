@@ -1,8 +1,8 @@
-package com.mav.archivit.api;
+package com.mav.archivit.api.tag;
 
-import com.mav.archivit.model.File;
+import com.mav.archivit.model.Tag;
 import com.mav.archivit.model.User;
-import com.mav.archivit.repository.FileRepository;
+import com.mav.archivit.repository.TagRepository;
 import com.mav.archivit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +20,30 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.StreamSupport.stream;
 
 @RestController
-@RequestMapping("/api/files")
-public class FileController {
+@RequestMapping("/api/tag")
+public class TagController {
 
-  private final FileRepository fileRepository;
+  private final TagRepository tagRepository;
   private final UserRepository userRepository;
 
   @Autowired
-  public FileController(FileRepository fileRepository, UserRepository userRepository) {
-    this.fileRepository = fileRepository;
+  public TagController(TagRepository tagRepository, UserRepository userRepository) {
+    this.tagRepository = tagRepository;
     this.userRepository = userRepository;
   }
 
   @RequestMapping("/")
   @CrossOrigin(origins = "http://localhost:4200")
   @ResponseBody
-  public ResponseEntity<List<File>> index(
+  public ResponseEntity<List<Tag>> findAll(
       @RequestParam(name = "userId", required = true) long userId) {
-    List<File> files = new ArrayList<>();
+    List<Tag> tags = new ArrayList<>();
     Optional<User> optionalUser = userRepository.findById(userId);
     optionalUser.ifPresent(
         user ->
-            stream(fileRepository.findAllByUser(user).spliterator(), false)
-                .sorted(comparing(File::getPath))
-                .forEach(files::add));
-    return ResponseEntity.ok(files);
+            stream(tagRepository.findAllByUser(user).spliterator(), false)
+                .sorted(comparing(Tag::getName))
+                .forEach(tags::add));
+    return ResponseEntity.ok(tags);
   }
 }

@@ -1,4 +1,4 @@
-package com.mav.archivit.api;
+package com.mav.archivit.api.user;
 
 import com.mav.archivit.model.User;
 import com.mav.archivit.repository.UserRepository;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
   private final UserRepository userRepository;

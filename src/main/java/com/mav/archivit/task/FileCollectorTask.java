@@ -1,8 +1,10 @@
 package com.mav.archivit.task;
 
 import com.mav.archivit.model.File;
+import com.mav.archivit.model.Tag;
 import com.mav.archivit.model.User;
 import com.mav.archivit.repository.FileRepository;
+import com.mav.archivit.repository.TagRepository;
 import com.mav.archivit.repository.UserRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -22,8 +24,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
@@ -36,15 +36,17 @@ public class FileCollectorTask {
   private static final Logger LOGGER = LoggerFactory.getLogger(FileCollectorTask.class);
   private final UserRepository userRepository;
   private final FileRepository fileRepository;
+  private final TagRepository tagRepository;
 
   @Autowired
-  public FileCollectorTask(UserRepository userRepository, FileRepository fileRepository) {
+  public FileCollectorTask(
+      UserRepository userRepository, FileRepository fileRepository, TagRepository tagRepository) {
     this.userRepository = userRepository;
     this.fileRepository = fileRepository;
+    this.tagRepository = tagRepository;
   }
 
-  // @Scheduled(cron = "* 0 * * * *")
-  @Scheduled(fixedRate = 50000)
+  @Scheduled(initialDelay = 1000, fixedDelay = Long.MAX_VALUE)
   public void scan() {
     LOGGER.info("Start scanner");
     userRepository.findAll().forEach(this::scanForFilesByUser);
@@ -53,7 +55,8 @@ public class FileCollectorTask {
   private void scanForFilesByUser(User user) {
     try {
       long start = System.nanoTime();
-      Files.walkFileTree(Path.of(user.getPath()), new MyFileVisitor(user, fileRepository));
+      Files.walkFileTree(
+          Path.of(user.getPath()), new MyFileVisitor(user, fileRepository, tagRepository));
       LOGGER.info(
           "Processed files for user '{}' in {} milliseconds",
           user.getName(),
@@ -67,24 +70,12 @@ public class FileCollectorTask {
 
     private final User user;
     private final FileRepository fileRepository;
-    private final Map<String, File> directoryMap = new HashMap<>();
+    private final TagRepository tagRepository;
 
-    public MyFileVisitor(User user, FileRepository fileRepository) {
+    public MyFileVisitor(User user, FileRepository fileRepository, TagRepository tagRepository) {
       this.user = user;
       this.fileRepository = fileRepository;
-    }
-
-    @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-        throws IOException {
-      if (FilenameUtils.getName(dir.toString()).startsWith(".")) {
-        return FileVisitResult.CONTINUE;
-      }
-
-      File directory = newOrUpdateFile(dir, attrs);
-      directory.setRegularFile(Boolean.FALSE);
-      directoryMap.putIfAbsent(dir.toString(), fileRepository.save(directory));
-      return FileVisitResult.CONTINUE;
+      this.tagRepository = tagRepository;
     }
 
     @Override
@@ -93,9 +84,7 @@ public class FileCollectorTask {
         return FileVisitResult.CONTINUE;
       }
 
-      File directory = newOrUpdateFile(file, attrs);
-      directory.setRegularFile(Boolean.TRUE);
-      fileRepository.save(directory);
+      fileRepository.save(newOrUpdateFile(file, attrs));
       return FileVisitResult.CONTINUE;
     }
 
@@ -121,19 +110,25 @@ public class FileCollectorTask {
           .ifPresent(file::setLastModifiedTime);
       isNullOrChanged(file.getSize(), attrs.size()).ifPresent(file::setSize);
 
-      getFromDirectoryMap(path.getParent().toString())
-          .flatMap(newParent -> isNullOrChanged(file.getParentFile(), newParent))
-          .ifPresent(file::setParentFile);
-
       getContent(path)
           .flatMap(newContent -> isNullOrChanged(file.getContent(), newContent))
           .ifPresent(file::setContent);
 
+      if (file.getTags().isEmpty() && !user.getPath().equals(path.getParent().toString())) {
+        String parentName = path.subpath(user.getPath().split("/").length - 1, user.getPath().split("/").length).toString();
+        file.getTags().add(getFirstTagByParentName(parentName));
+      }
+
       return file;
     }
 
-    private Optional<File> getFromDirectoryMap(String key) {
-      return Optional.ofNullable(directoryMap.getOrDefault(key, null));
+    private Tag getFirstTagByParentName(String parentName) {
+      return tagRepository
+          .findByNameIgnoreCase(parentName)
+          .orElseGet(
+              () ->
+                  tagRepository.save(
+                      Tag.TagBuilder.aTag().withName(parentName).withUser(user).build()));
     }
 
     private Optional<String> getContent(Path path) {
@@ -162,13 +157,8 @@ public class FileCollectorTask {
       return isNullOrChanged(currentValue, newValue, () -> !currentValue.isEqual(newValue));
     }
 
-    private static Optional<Long> isNullOrChanged(long currentValue, long newValue) {
-      return isNullOrChanged(currentValue, newValue, () -> currentValue != newValue);
-    }
-
-    private static Optional<File> isNullOrChanged(File currentValue, File newValue) {
-      return isNullOrChanged(
-          currentValue, newValue, () -> currentValue.getFileKey().equals(newValue.getFileKey()));
+    private static Optional<Long> isNullOrChanged(Long currentValue, Long newValue) {
+      return isNullOrChanged(currentValue, newValue, () -> currentValue.compareTo(newValue) != 0);
     }
 
     private static <T> Optional<T> isNullOrChanged(

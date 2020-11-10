@@ -1,12 +1,10 @@
 package com.mav.archivit.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -16,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -37,25 +34,18 @@ public class File {
   @NotNull @ManyToOne @JsonBackReference private User user;
 
   @NotNull private String name;
-  private String extension;
+  @NotNull private String extension;
   @NotNull private String path;
-  @NotNull private Boolean isRegularFile = Boolean.TRUE;
   @NotNull private LocalDateTime creationTime;
   @NotNull private LocalDateTime lastAccessTime;
   @NotNull private LocalDateTime lastModifiedTime;
   @NotNull private String fileKey;
-  private long size;
+  @NotNull private Long size;
 
   @Column(columnDefinition = "TEXT")
   private String content;
 
-  @OneToMany(mappedBy = "parentFile")
-  @JsonManagedReference
-  private List<File> children = new ArrayList<>();
-
-  @ManyToOne @JsonBackReference private File parentFile;
-
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "file_tag",
       joinColumns = @JoinColumn(name = "file_id", referencedColumnName = "id"),
@@ -118,14 +108,6 @@ public class File {
     this.path = path;
   }
 
-  public Boolean getRegularFile() {
-    return isRegularFile;
-  }
-
-  public void setRegularFile(Boolean regularFile) {
-    isRegularFile = regularFile;
-  }
-
   public LocalDateTime getCreationTime() {
     return creationTime;
   }
@@ -158,11 +140,11 @@ public class File {
     this.fileKey = fileKey;
   }
 
-  public long getSize() {
+  public Long getSize() {
     return size;
   }
 
-  public void setSize(long size) {
+  public void setSize(Long size) {
     this.size = size;
   }
 
@@ -174,22 +156,6 @@ public class File {
     this.content = content;
   }
 
-  public List<File> getChildren() {
-    return children;
-  }
-
-  public void setChildren(List<File> children) {
-    this.children = children;
-  }
-
-  public File getParentFile() {
-    return parentFile;
-  }
-
-  public void setParentFile(File parentFile) {
-    this.parentFile = parentFile;
-  }
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -199,7 +165,7 @@ public class File {
   }
 
   public static final class FileBuilder {
-    private File file;
+    private final File file;
 
     private FileBuilder() {
       file = new File();
@@ -264,23 +230,13 @@ public class File {
       return this;
     }
 
-    public FileBuilder withSize(long size) {
+    public FileBuilder withSize(Long size) {
       file.setSize(size);
       return this;
     }
 
     public FileBuilder withContent(String content) {
       file.setContent(content);
-      return this;
-    }
-
-    public FileBuilder withChildren(List<File> children) {
-      file.setChildren(children);
-      return this;
-    }
-
-    public FileBuilder withParentFile(File parentFile) {
-      file.setParentFile(parentFile);
       return this;
     }
 
