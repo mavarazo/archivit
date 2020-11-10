@@ -101,7 +101,7 @@ public class FileCollectorTask {
 
       isNullOrChanged(file.getName(), FilenameUtils.getBaseName(path.toString()))
           .ifPresent(file::setName);
-      isNullOrChanged(file.getExtension(), FilenameUtils.getExtension(path.toString()))
+      isNullOrChanged(file.getExtension(), FilenameUtils.getExtension(path.toString()).toLowerCase())
           .ifPresent(file::setExtension);
       isNullOrChanged(file.getPath(), path.toString()).ifPresent(file::setPath);
       isNullOrChanged(file.getLastAccessTime(), toLocalDateTime(attrs.lastAccessTime()))

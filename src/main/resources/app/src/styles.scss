@@ -1,10 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~admin-lte/plugins/fontawesome-free/css/all.min.css';
-@import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
-@import '~admin-lte/dist/css/adminlte.min.css';
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
 
-::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }

@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { MainComponent } from './main/main.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FileComponent } from './file/file.component';
 
 const routes: Routes = [
-  { path: '', component: MainComponent },
+  { path: '', component: DashboardComponent },
+  { path: 'file', children: [
+    { path: '', component: FileComponent},
+    { path: ':fileId', component: FileComponent}
+  ] }
 ];
 
 @NgModule({

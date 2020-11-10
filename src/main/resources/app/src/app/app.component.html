@@ -1,1 +1,68 @@
-<router-outlet></router-outlet>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
+    data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+
+  <div class="navbar-collapse col-md-3 col-lg-2 mr-0 px-3" [class.collapse]="collapsed" id="navbarContent">
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+        <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
+          Marco
+        </a>
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu" *ngFor="let user of users">
+          <a ngbDropdownItem href="#" (click)="$event.preventDefault()">{{ user.name }}</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" routerLinkActive="active" [routerLink]="['/file']">
+              All <span class="badge badge-secondary float-right" *ngIf="user">{{ user.totalFiles }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/file']" [queryParams]="{ filter: 'untagged'}">
+              Untagged <span class="badge badge-secondary float-right" *ngIf="user">{{ user.totalUntaggedFiles }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/file']" [queryParams]="{ filter: 'starred'}">
+              Starred <span class="badge badge-secondary float-right" *ngIf="user">{{ user.totalStarredFiles }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/tag']">
+              All Tags <span class="badge badge-secondary float-right" *ngIf="user">{{ user.totalTags }}</span>
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Tags</span>
+        </h6>
+        <!--ul class="nav flex-column mb-2" *ngFor="let tag of data.topTags">
+          <li class="nav-item">
+            <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/file/', tag.id]">
+              {{ tag.name }}
+            </a>
+          </li>
+        </ul-->
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

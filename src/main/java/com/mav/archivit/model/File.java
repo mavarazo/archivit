@@ -41,6 +41,7 @@ public class File {
   @NotNull private LocalDateTime lastModifiedTime;
   @NotNull private String fileKey;
   @NotNull private Long size;
+  private Boolean isStarred = Boolean.FALSE;
 
   @Column(columnDefinition = "TEXT")
   private String content;
@@ -148,6 +149,14 @@ public class File {
     this.size = size;
   }
 
+  public Boolean getStarred() {
+    return isStarred;
+  }
+
+  public void setStarred(Boolean starred) {
+    isStarred = starred;
+  }
+
   public String getContent() {
     return content;
   }
@@ -165,7 +174,7 @@ public class File {
   }
 
   public static final class FileBuilder {
-    private final File file;
+    private File file;
 
     private FileBuilder() {
       file = new File();
