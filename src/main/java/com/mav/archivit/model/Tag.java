@@ -15,7 +15,7 @@ public class Tag {
 
   @Id @GeneratedValue private Long id;
   private String name;
-  private int value;
+
   @NotNull @ManyToOne @JsonBackReference private User user;
 
   public Long getId() {
@@ -32,14 +32,6 @@ public class Tag {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
   }
 
   public User getUser() {
@@ -68,11 +60,6 @@ public class Tag {
 
     public TagBuilder withName(String name) {
       tag.setName(name);
-      return this;
-    }
-
-    public TagBuilder withValue(int value) {
-      tag.setValue(value);
       return this;
     }
 

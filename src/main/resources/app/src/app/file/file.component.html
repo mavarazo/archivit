@@ -1,40 +1,40 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-3 col-sm-6 ">
     <div class="list-group list-group-flush" *ngFor="let file of files">
       <a href="#" class="list-group-item list-group-item-action" routerLinkActive="active"
         [routerLink]="['/file', file.id]">{{ file.name }}</a>
     </div>
   </div>
 
-  <div class="col" *ngIf="file">
-<div class="sticky-top" style="top: 56px">
-    <h6>{{ file.name }}</h6>
-    <dl class="row">
-      <dt class="col-sm-3">Extension</dt>
-      <dd class="col-sm-9">{{ file.extension }}</dd>
+  <div class="col-md-9 col-sm-6 " *ngIf="file">
+    <div class="sticky-top" style="top: 56px">
+      <h6>{{ file.name }}</h6>
+      <dl class="row">
+        <dt class="col-sm-3">Extension</dt>
+        <dd class="col-sm-9">{{ file.extension }}</dd>
 
-      <dt class="col-sm-3">Size</dt>
-      <dd class="col-sm-9">{{ file.size | filesize }}</dd>
+        <dt class="col-sm-3">Size</dt>
+        <dd class="col-sm-9">{{ file.size | filesize }}</dd>
 
-      <dt class="col-sm-3">Path</dt>
-      <dd class="col-sm-9">{{ file.path }}</dd>
+        <dt class="col-sm-3">Path</dt>
+        <dd class="col-sm-9">{{ file.path }}</dd>
 
-      <dt class="col-sm-3">Created</dt>
-      <dd class="col-sm-9">{{ file.creationTime }}</dd>
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">{{ file.creationTime }}</dd>
 
-      <dt class="col-sm-3">Accessed</dt>
-      <dd class="col-sm-9">{{ file.lastAccessTime }}</dd>
+        <dt class="col-sm-3">Accessed</dt>
+        <dd class="col-sm-9">{{ file.lastAccessTime }}</dd>
 
-      <dt class="col-sm-3">Modified</dt>
-      <dd class="col-sm-9">{{ file.lastModifiedTime }}</dd>
+        <dt class="col-sm-3">Modified</dt>
+        <dd class="col-sm-9">{{ file.lastModifiedTime }}</dd>
 
-      <dt class="col-sm-3">Tags</dt>
-      <dd class="col-sm-9">
-        <div *ngFor="let tag of file.tags">
-          <span class="badge badge-secondary">{{ tag.name }}</span>
-        </div>
-      </dd>
-    </dl>
-  </div>
+        <dt class="col-sm-3">Tags</dt>
+        <dd class="col-sm-9">
+          <div *ngFor="let tag of file.tags">
+            <span class="badge badge-secondary">{{ tag.name }}</span>
+          </div>
+        </dd>
+      </dl>
+    </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Tag } from './tag.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class TagService {
 
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<any> {
+  findAll(): Observable<Tag[]> {
     const url = `${this.baseUrl}/?userId=1`;
     return this.http.get(url);
   }

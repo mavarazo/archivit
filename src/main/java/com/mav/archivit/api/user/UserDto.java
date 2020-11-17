@@ -1,5 +1,7 @@
 package com.mav.archivit.api.user;
 
+import com.mav.archivit.model.Tag;
+
 import org.immutables.value.Value;
 
 import java.util.List;
@@ -34,5 +36,5 @@ public interface UserDto {
 
   List<String> getExtensions();
 
-  Map<Integer, String> getTopTags();
+  Map<Integer, Tag> getTopTags();
 }

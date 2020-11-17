@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FileService } from '../service/file.service';
+import { File } from '../service/file.model'
 
 @Component({
   selector: 'app-file',
@@ -9,8 +10,8 @@ import { FileService } from '../service/file.service';
 })
 export class FileComponent implements OnInit {
 
-  files: any;
-  file: any;
+  files: File[];
+  file: File;
 
   constructor(private route: ActivatedRoute, private fileService: FileService) {  }
 
