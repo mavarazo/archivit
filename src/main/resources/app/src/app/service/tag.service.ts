@@ -12,8 +12,13 @@ export class TagService {
 
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<Tag[]> {
+  findAll(): Observable<any> {
     const url = `${this.baseUrl}/?userId=1`;
+    return this.http.get(url);
+  }
+
+  search(name: String): Observable<any> {
+    const url = `${this.baseUrl}/?userId=1&name=${name}`;
     return this.http.get(url);
   }
 }
