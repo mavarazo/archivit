@@ -20,6 +20,8 @@ class ArchivitProcessor():
                 if rule['keywords']:
                     matches = self._words_in_string(rule['keywords'], content)
                     score = 100 / len(rule['keywords']) * len(matches)
+                    if score == 100:
+                        return (rule, matches, score)
                     if score > 64:
                         results.append((rule, matches, score))
         
