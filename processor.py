@@ -21,13 +21,13 @@ class ArchivitProcessor():
                 if rule['keywords']:
                     matches = self._words_in_string(rule['keywords'], content)
                     score = 100 / len(rule['keywords']) * len(matches)
-                    self.logger.info(f"{file_path} {rule['name']} {score}")
-                    if score == 100:
-                        return list((rule, matches, score))
-                    elif score > 64:
+                    self.logger.info(f"{rule['name']} {score}")
+                    if score > 64:
                         results.append((rule, matches, score))
         
-        return results
+        if results:
+            return max(results, key = lambda i : i[2])
+        return None, list(), 0
 
     def _get_pdf_content(self, file_path):
         with os.popen('/usr/bin/pdftotext "%s" -' % file_path) as p:
