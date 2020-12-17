@@ -2,6 +2,7 @@ version: "3"
 
 services: 
     archivit:
+        container_name: archivit
         build: "."
         env_file:
             - ".env"
