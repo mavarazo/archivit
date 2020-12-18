@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+  db:
+    image: postgres:latest
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+  frontend:
+    build: ./frontend
+    networks:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+networks:
+  frontend:
+  backend:

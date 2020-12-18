@@ -2,9 +2,6 @@
 .vscode/
 .DS_Store
 
-.env
-*.yml
-
 *.class
 
 # Mobile Tools for Java (J2ME)
