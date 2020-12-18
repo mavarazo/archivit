@@ -1,0 +1,34 @@
+spring.profiles.active: dev
+
+spring:
+  application:
+    name: Archivit
+  datasource:
+    driver-class-name: ${ENV_DATASOURCE_DRIVER}
+    url: ${ENV_DATASOURCE_URL}
+    username: ${ENV_DATASOURCE_USERNAME}
+    password: ${ENV_DATASOURCE_PASSWORD}
+  jpa:
+    database-platform: ${ENV_HIBERNATE_DIALECT}
+
+nextcloud:
+  host: ${NEXTCLOUD_HOST}
+  webdav-path: ${NEXTCLOUD_WEBDAV_PATH}
+  username: ${NEXTCLOUD_USERNAME}
+  password: ${NEXTCLOUD_PASSWORD}
+  input-path: ${NEXTCLOUD_INPUT_PATH}
+  output-path: ${NEXTCLOUD_OUTPUT_PATH}
+
+---
+
+spring.profiles: dev
+
+ENV_DATASOURCE_DRIVER: org.h2.Driver
+ENV_DATASOURCE_URL: jdbc:h2:file:./database
+ENV_DATASOURCE_USERNAME: sa
+ENV_DATASOURCE_PASSWORD:
+ENV_HIBERNATE_DIALECT: org.hibernate.dialect.H2Dialect
+
+---
+
+spring.profiles: docker
