@@ -22,7 +22,6 @@ class ArchivitEventHandler:
             temp_file = self.client.download_from_input_path(file_name)
             rule, matches, score = self.processor.process(temp_file)
             os.remove(temp_file)
-
             if rule:
                 self.logger.info(f"{file_name} matches with {rule['name']}")
                 self.client.move_from_input_path(file_name, rule['target'])

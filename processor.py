@@ -30,7 +30,7 @@ class ArchivitProcessor():
         return None, list(), 0
 
     def _get_pdf_content(self, file_path):
-        with os.popen('/usr/bin/pdftotext "%s" -' % file_path) as p:
+        with os.popen('/usr/bin/pdftotext -enc UTF-8 -nopgbrk "%s" -' % file_path) as p:
             output = p.read()
         return output
         
