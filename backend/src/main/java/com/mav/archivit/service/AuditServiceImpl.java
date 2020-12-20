@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuditServiceImpl implements AuditService {
@@ -21,5 +22,10 @@ public class AuditServiceImpl implements AuditService {
   @Override
   public List<Audit> findAll() {
     return new ArrayList<>(auditRepository.findAll());
+  }
+
+  @Override
+  public Optional<Audit> findById(Long id) {
+    return auditRepository.findById(id);
   }
 }

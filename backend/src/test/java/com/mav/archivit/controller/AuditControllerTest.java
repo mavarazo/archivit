@@ -13,9 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,17 +36,42 @@ class AuditControllerTest {
   @MockBean private AuditService service;
 
   @Test
-  public void testIndex() throws Exception {
+  void testIndex() throws Exception {
     // Arrange
     Audit audit = new Audit();
     audit.setFilePath("fancy/path/to/a file.pdf");
 
-    doReturn(Arrays.asList(audit)).when(service).findAll();
+    doReturn(Collections.singletonList(audit)).when(service).findAll();
 
     // Act && Assert
     mvc.perform(get("/api/audit/").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$[0].filePath", is(FILE_PATH)));
+  }
+
+  @Test
+  void testGet_not_found() throws Exception {
+    // Arrange
+    doReturn(Optional.empty()).when(service).findById(any());
+
+    // Act && Assert
+    mvc.perform(get("/api/audit/1").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void testGet_ok() throws Exception {
+    // Arrange
+    Audit audit = new Audit();
+    audit.setFilePath("fancy/path/to/a file.pdf");
+
+    doReturn(Optional.of(audit)).when(service).findById(any());
+
+    // Act && Assert
+    mvc.perform(get("/api/audit/1").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.filePath", is(FILE_PATH)));
   }
 }

@@ -4,6 +4,7 @@ import com.mav.archivit.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +30,14 @@ public class AuditController {
         auditService.findAll().stream()
             .map(AuditMapper.INSTANCE::toDto)
             .collect(Collectors.toList()));
+  }
+
+  @GetMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity<AuditDto> get(@PathVariable("id") Long id) {
+    return auditService
+        .findById(id)
+        .map(audit -> ResponseEntity.ok(AuditMapper.INSTANCE.toDto(audit)))
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }

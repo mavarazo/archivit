@@ -10,6 +10,8 @@ spring:
     password: ${ENV_DATASOURCE_PASSWORD}
   jpa:
     database-platform: ${ENV_HIBERNATE_DIALECT}
+    hibernate:
+      ddl-auto=create-drop: create-drop
 
 nextcloud:
   host: ${NEXTCLOUD_HOST}
@@ -21,13 +23,20 @@ nextcloud:
 
 ---
 
-spring.profiles: dev
+spring.profiles: integrationtest
 
 ENV_DATASOURCE_DRIVER: org.h2.Driver
-ENV_DATASOURCE_URL: jdbc:h2:file:./database
+ENV_DATASOURCE_URL: jdbc:h2:mem:test
 ENV_DATASOURCE_USERNAME: sa
 ENV_DATASOURCE_PASSWORD:
 ENV_HIBERNATE_DIALECT: org.hibernate.dialect.H2Dialect
+
+NEXTCLOUD_HOST:
+NEXTCLOUD_WEBDAV_PATH:
+NEXTCLOUD_USERNAME:
+NEXTCLOUD_PASSWORD:
+NEXTCLOUD_INPUT_PATH:
+NEXTCLOUD_OUTPUT_PATH:
 
 ---
 
