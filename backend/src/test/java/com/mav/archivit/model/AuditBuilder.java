@@ -9,7 +9,7 @@ public final class AuditBuilder {
   private LocalDateTime created;
   private LocalDateTime updated;
   private String filePath;
-  private boolean isProcessed = false;
+  private StatusEnum status = StatusEnum.OPEN;
   private Set<Match> matches = new HashSet<>();
 
   private AuditBuilder() {}
@@ -38,8 +38,8 @@ public final class AuditBuilder {
     return this;
   }
 
-  public AuditBuilder withProcessed(boolean isProcessed) {
-    this.isProcessed = isProcessed;
+  public AuditBuilder withStatus(StatusEnum status) {
+    this.status = status;
     return this;
   }
 
@@ -54,6 +54,7 @@ public final class AuditBuilder {
     audit.setCreated(created);
     audit.setUpdated(updated);
     audit.setFilePath(filePath);
+    audit.setStatus(status);
     audit.setMatches(matches);
     return audit;
   }

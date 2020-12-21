@@ -31,6 +31,11 @@ public class AuditServiceImpl implements AuditService {
   }
 
   @Override
+  public Optional<Audit> findByFilePath(String path) {
+    return auditRepository.findByFilePath(path);
+  }
+
+  @Override
   @Transactional
   public Audit save(Audit audit) {
     return auditRepository.save(audit);

@@ -3,6 +3,7 @@ package com.mav.archivit.service;
 import com.mav.archivit.model.Audit;
 import com.mav.archivit.model.AuditBuilder;
 import com.mav.archivit.model.MatchBuilder;
+import com.mav.archivit.model.StatusEnum;
 import com.mav.archivit.repository.AuditRepository;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -37,7 +38,7 @@ class AuditServiceImplTest {
             .withCreated(LocalDateTime.now())
             .withUpdated(LocalDateTime.now())
             .withFilePath("fancy/path/to/a file.pdf")
-            .withProcessed(true)
+            .withStatus(StatusEnum.DONE)
             .withMatches(
                 new HashSet<>(
                     Collections.singletonList(

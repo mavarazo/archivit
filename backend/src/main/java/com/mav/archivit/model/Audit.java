@@ -30,7 +30,7 @@ public class Audit {
 
   private String filePath;
 
-  private boolean isProcessed = false;
+  private StatusEnum status = StatusEnum.OPEN;
 
   @OneToMany(mappedBy = "audit")
   private Set<Match> matches = new HashSet<>();
@@ -67,12 +67,12 @@ public class Audit {
     this.filePath = filePath;
   }
 
-  public boolean getProcessed() {
-    return isProcessed;
+  public StatusEnum getStatus() {
+    return status;
   }
 
-  public void setProcessed(boolean processed) {
-    isProcessed = processed;
+  public void setStatus(StatusEnum status) {
+    this.status = status;
   }
 
   public Set<Match> getMatches() {

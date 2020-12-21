@@ -11,5 +11,7 @@ public interface AuditService {
 
   Optional<Audit> findById(Long id);
 
+  Optional<Audit> findByFilePath(String path);
+
   Audit save(Audit audit);
 }
