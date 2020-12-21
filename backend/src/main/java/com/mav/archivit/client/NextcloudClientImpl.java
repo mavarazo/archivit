@@ -60,7 +60,9 @@ public class NextcloudClientImpl implements NextcloudClient {
 
   private List<DavResource> list(String directory) throws NextcloudClientException {
     try {
-      return getSardine().list(host + webdav_path + directory);
+      String url = host + webdav_path + directory;
+      LOGGER.info("List: {}", url);
+      return getSardine().list(url);
     } catch (IOException e) {
       throw new NextcloudClientException(e.getMessage(), e);
     }

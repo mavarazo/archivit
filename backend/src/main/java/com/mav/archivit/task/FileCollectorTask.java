@@ -56,7 +56,9 @@ public class FileCollectorTask {
 
   private void scanForPdfInNextcloud() {
     try {
-      processPdfs(nextcloudClient.listPdfFromInputPath());
+      List<DavResource> pdfs = nextcloudClient.listPdfFromInputPath();
+      LOGGER.info("Found '{}' PDF in Nextcloud", pdfs.size());
+      processPdfs(pdfs);
     } catch (NextcloudClientException e) {
       LOGGER.error(e.getMessage());
     }
@@ -89,9 +91,10 @@ public class FileCollectorTask {
                     "Move '{}' to '{}'", audit.getFilePath(), match.getRule().getTargetPath());
                 audit.setProcessed(Boolean.TRUE);
               });
-
-      auditService.save(audit);
+    } else {
+      LOGGER.info("No matches for '{}'", audit.getFilePath());
     }
+    auditService.save(audit);
   }
 
   private Optional<String> getPdfContent(InputStream inputStream) {

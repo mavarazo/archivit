@@ -11,7 +11,7 @@ spring:
   jpa:
     database-platform: ${ENV_HIBERNATE_DIALECT}
     hibernate:
-      ddl-auto=create-drop: create-drop
+      ddl-auto: update
 
 nextcloud:
   host: ${NEXTCLOUD_HOST}
