@@ -5,6 +5,7 @@ import com.mav.archivit.repository.AuditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,5 +28,11 @@ public class AuditServiceImpl implements AuditService {
   @Override
   public Optional<Audit> findById(Long id) {
     return auditRepository.findById(id);
+  }
+
+  @Override
+  @Transactional
+  public Audit save(Audit audit) {
+    return auditRepository.save(audit);
   }
 }

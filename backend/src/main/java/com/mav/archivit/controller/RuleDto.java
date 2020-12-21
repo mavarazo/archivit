@@ -14,5 +14,7 @@ public interface RuleDto {
 
   String getName();
 
+  String getTargetPath();
+
   List<KeywordDto> getKeywords();
 }

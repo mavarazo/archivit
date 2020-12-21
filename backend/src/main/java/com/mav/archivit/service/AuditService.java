@@ -10,4 +10,6 @@ public interface AuditService {
   List<Audit> findAll();
 
   Optional<Audit> findById(Long id);
+
+  Audit save(Audit audit);
 }

@@ -2,7 +2,7 @@ package com.mav.archivit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mav.archivit.ArchivitApplication;
-import com.mav.archivit.model.Rule;
+import com.mav.archivit.model.RuleBuilder;
 import com.mav.archivit.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("integrationtest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RuleControllerTest {
+class RuleControllerIntegTest {
 
   public static final String LOREM_IPSUM = "Lorem Ipsum";
   @Autowired private MockMvc mvc;
@@ -43,9 +43,7 @@ class RuleControllerTest {
 
   @BeforeAll
   void setup() {
-    Rule rule = new Rule();
-    rule.setName(LOREM_IPSUM);
-    service.save(rule);
+    service.save(RuleBuilder.aRule().withName(LOREM_IPSUM).withTargetPath(LOREM_IPSUM).build());
   }
 
   @Test
@@ -79,6 +77,7 @@ class RuleControllerTest {
     ImmutableRuleDto ruleDto =
         ImmutableRuleDto.builder()
             .name(LOREM_IPSUM)
+            .targetPath(LOREM_IPSUM)
             .addKeywords(ImmutableKeywordDto.builder().name(LOREM_IPSUM).build())
             .build();
 

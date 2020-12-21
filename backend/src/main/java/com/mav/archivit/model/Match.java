@@ -4,35 +4,41 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "rules")
+@Table(name = "matches")
 @EntityListeners(AuditingEntityListener.class)
-public class Rule {
+public class Match {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @CreatedDate private LocalDateTime created;
 
   @LastModifiedDate private LocalDateTime updated;
 
-  private String name;
+  @ManyToOne
+  @JoinColumn(name = "audit_id")
+  private Audit audit;
 
-  private String targetPath;
+  @ManyToOne
+  @JoinColumn(name = "rule_id")
+  private Rule rule;
 
-  @ManyToMany(targetEntity = Keyword.class, cascade = CascadeType.PERSIST)
-  Set<Keyword> keywords = new HashSet<>();
+  @Column(precision = 5, scale = 2)
+  private BigDecimal score = BigDecimal.ZERO;
 
   public Long getId() {
     return id;
@@ -58,27 +64,27 @@ public class Rule {
     this.updated = updated;
   }
 
-  public String getName() {
-    return name;
+  public Audit getAudit() {
+    return audit;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setAudit(Audit audit) {
+    this.audit = audit;
   }
 
-  public String getTargetPath() {
-    return targetPath;
+  public Rule getRule() {
+    return rule;
   }
 
-  public void setTargetPath(String targetPath) {
-    this.targetPath = targetPath;
+  public void setRule(Rule rule) {
+    this.rule = rule;
   }
 
-  public Set<Keyword> getKeywords() {
-    return keywords;
+  public BigDecimal getScore() {
+    return score;
   }
 
-  public void setKeywords(Set<Keyword> keywords) {
-    this.keywords = keywords;
+  public void setScore(BigDecimal score) {
+    this.score = score;
   }
 }
