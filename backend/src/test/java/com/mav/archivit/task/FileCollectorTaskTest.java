@@ -103,18 +103,18 @@ class FileCollectorTaskTest {
   private class TestcaseBuilder {
 
     FileCollectorTask sut;
-    private AuditService auditService;
-    private NextcloudClient nextcloudClient;
-    private RuleService ruleService;
+    private final AuditService auditService;
+    private final NextcloudClient nextcloudClient;
+    private final RuleService ruleService;
 
-    private List<DavResource> davResources = new ArrayList<>();
+    private final List<DavResource> davResources = new ArrayList<>();
 
     public TestcaseBuilder() {
       auditService = mock(AuditService.class);
       nextcloudClient = mock(NextcloudClient.class);
       ruleService = mock(RuleService.class);
 
-      sut = spy(new FileCollectorTask(auditService, nextcloudClient, ruleService));
+      sut = spy(new FileCollectorTask(nextcloudClient, auditService, ruleService));
     }
 
     public TestcaseBuilder addDavResource(String path) {
