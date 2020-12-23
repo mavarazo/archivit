@@ -155,19 +155,17 @@ class FileCollectorTaskTest {
                       .withName("Lorem Ipsum")
                       .withTargetPath("Lorem")
                       .withKeywords(
-                          new HashSet<>(
                               Arrays.asList(
                                   KeywordBuilder.aKeyword().withName("Lorem").build(),
-                                  KeywordBuilder.aKeyword().withName("Ipsum").build())))
+                                  KeywordBuilder.aKeyword().withName("Ipsum").build()))
                       .build(),
                   RuleBuilder.aRule()
                       .withName("Zombie Ipsum")
                       .withTargetPath("Zombie")
                       .withKeywords(
-                          new HashSet<>(
                               Arrays.asList(
                                   KeywordBuilder.aKeyword().withName("Zombie").build(),
-                                  KeywordBuilder.aKeyword().withName("Ipsum").build())))
+                                  KeywordBuilder.aKeyword().withName("Ipsum").build()))
                       .build()))
           .when(ruleService)
           .findAll();

@@ -1,38 +1,29 @@
 package com.mav.archivit.model;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rules")
-@EntityListeners(AuditingEntityListener.class)
-public class Rule {
+public class Rule extends AbstractModel {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-
-  @CreatedDate private LocalDateTime created;
-
-  @LastModifiedDate private LocalDateTime updated;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   private String name;
 
   private String targetPath;
 
-  @ManyToMany(targetEntity = Keyword.class, cascade = CascadeType.PERSIST)
-  Set<Keyword> keywords = new HashSet<>();
+  @OneToMany(mappedBy = "rule", cascade = CascadeType.ALL)
+  private List<Keyword> keywords = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -40,22 +31,6 @@ public class Rule {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public LocalDateTime getCreated() {
-    return created;
-  }
-
-  public void setCreated(LocalDateTime created) {
-    this.created = created;
-  }
-
-  public LocalDateTime getUpdated() {
-    return updated;
-  }
-
-  public void setUpdated(LocalDateTime updated) {
-    this.updated = updated;
   }
 
   public String getName() {
@@ -74,11 +49,11 @@ public class Rule {
     this.targetPath = targetPath;
   }
 
-  public Set<Keyword> getKeywords() {
+  public List<Keyword> getKeywords() {
     return keywords;
   }
 
-  public void setKeywords(Set<Keyword> keywords) {
+  public void setKeywords(List<Keyword> keywords) {
     this.keywords = keywords;
   }
 }

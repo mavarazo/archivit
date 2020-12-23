@@ -9,5 +9,4 @@ class ArchivitApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

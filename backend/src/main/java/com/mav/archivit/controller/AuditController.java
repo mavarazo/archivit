@@ -3,8 +3,12 @@ package com.mav.archivit.controller;
 import com.mav.archivit.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +42,20 @@ public class AuditController {
     return auditService
         .findById(id)
         .map(audit -> ResponseEntity.ok(AuditMapper.INSTANCE.toDto(audit)))
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  @PutMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity<AuditDto> update(
+      @Validated @NonNull @RequestBody AuditDto auditDto, @PathVariable("id") Long id) {
+    return auditService
+        .findById(id)
+        .map(
+            audit -> {
+              AuditMapper.INSTANCE.toModel(auditDto, audit);
+              return ResponseEntity.ok(AuditMapper.INSTANCE.toDto(auditService.save(audit)));
+            })
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }

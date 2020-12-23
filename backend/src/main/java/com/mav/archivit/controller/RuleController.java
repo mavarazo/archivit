@@ -4,10 +4,12 @@ import com.mav.archivit.model.Rule;
 import com.mav.archivit.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,14 +50,29 @@ public class RuleController {
 
   @PostMapping("/")
   @ResponseBody
-  public ResponseEntity<RuleDto> save(@RequestBody RuleDto rule) {
-    Rule result = ruleService.save(RuleMapper.INSTANCE.toModel(rule));
+  public ResponseEntity<RuleDto> save(@Validated @NonNull @RequestBody RuleDto ruleDto) {
+    Rule rule = ruleService.save(RuleMapper.INSTANCE.toModel(ruleDto));
 
     return ResponseEntity.created(
             ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(result.getId())
+                .buildAndExpand(rule.getId())
                 .toUri())
-        .body(RuleMapper.INSTANCE.toDto(result));
+        .body(RuleMapper.INSTANCE.toDto(rule));
+  }
+
+  @PutMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity<RuleDto> update(
+      @Validated @NonNull @RequestBody RuleDto ruleDto, @PathVariable("id") Long id) {
+    return ruleService
+        .findById(id)
+        .map(
+            rule -> {
+              RuleMapper.INSTANCE.toModel(ruleDto, rule);
+              rule = ruleService.save(rule);
+              return ResponseEntity.ok(RuleMapper.INSTANCE.toDto(rule));
+            })
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }

@@ -4,6 +4,7 @@ import com.mav.archivit.model.Rule;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -16,8 +17,14 @@ public interface RuleMapper {
 
   RuleDto toDto(Rule rule);
 
-  @Mapping(target = "updated", ignore = true)
-  @Mapping(target = "id", ignore = true)
   @Mapping(target = "created", ignore = true)
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "updated", ignore = true)
   Rule toModel(RuleDto rule);
+
+  @Mapping(target = "created", ignore = true)
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "updated", ignore = true)
+  @Mapping(target = "keywords", ignore = true)
+  void toModel(RuleDto ruleDto, @MappingTarget Rule rule);
 }

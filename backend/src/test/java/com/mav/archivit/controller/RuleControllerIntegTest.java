@@ -2,6 +2,8 @@ package com.mav.archivit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mav.archivit.ArchivitApplication;
+import com.mav.archivit.model.KeywordBuilder;
+import com.mav.archivit.model.Rule;
 import com.mav.archivit.model.RuleBuilder;
 import com.mav.archivit.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RuleControllerIntegTest {
 
   public static final String LOREM_IPSUM = "Lorem Ipsum";
+  public static final String ZOMBIE_IPSUM = "Zombie Ipsum";
   @Autowired private MockMvc mvc;
 
   @Autowired private RuleService service;
@@ -43,7 +47,9 @@ class RuleControllerIntegTest {
 
   @BeforeAll
   void setup() {
-    service.save(RuleBuilder.aRule().withName(LOREM_IPSUM).withTargetPath(LOREM_IPSUM).build());
+    Rule rule = RuleBuilder.aRule().withName(LOREM_IPSUM).withTargetPath(LOREM_IPSUM).build();
+    rule.getKeywords().add(KeywordBuilder.aKeyword().withName(LOREM_IPSUM).withRule(rule).build());
+    service.save(rule);
   }
 
   @Test
@@ -52,7 +58,9 @@ class RuleControllerIntegTest {
     mvc.perform(get("/api/rule/").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].name", is("Lorem Ipsum")));
+        .andExpect(jsonPath("$[0].name", is("Lorem Ipsum")))
+        .andExpect(jsonPath("$[0].targetPath", is(LOREM_IPSUM)))
+        .andExpect(jsonPath("$[0].keywords[0].name", is(LOREM_IPSUM)));
   }
 
   @Test
@@ -68,7 +76,9 @@ class RuleControllerIntegTest {
     mvc.perform(get("/api/rule/1").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.name", is(LOREM_IPSUM)));
+        .andExpect(jsonPath("$.name", is(LOREM_IPSUM)))
+        .andExpect(jsonPath("$.targetPath", is(LOREM_IPSUM)))
+        .andExpect(jsonPath("$.keywords[0].name", is(LOREM_IPSUM)));
   }
 
   @Test
@@ -90,6 +100,23 @@ class RuleControllerIntegTest {
         .andExpect(header().string("Location", "http://localhost/api/rule/2"))
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.name", is(LOREM_IPSUM)))
+        .andExpect(jsonPath("$.keywords[0].name", is(LOREM_IPSUM)));
+  }
+
+  @Test
+  void testUpdate() throws Exception {
+    // Arrange
+    ImmutableRuleDto ruleDto =
+        ImmutableRuleDto.builder().name(ZOMBIE_IPSUM).targetPath(LOREM_IPSUM).build();
+
+    // Act && Assert
+    mvc.perform(
+            put("/api/rule/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(ruleDto)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name", is(ZOMBIE_IPSUM)))
+        .andExpect(jsonPath("$.targetPath", is(LOREM_IPSUM)))
         .andExpect(jsonPath("$.keywords[0].name", is(LOREM_IPSUM)));
   }
 }
