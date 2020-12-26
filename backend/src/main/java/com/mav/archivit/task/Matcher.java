@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -24,10 +23,10 @@ public class Matcher {
     this.rules = rules;
   }
 
-  public Set<Match> process(Pdf pdf) {
+  public List<Match> process(Pdf pdf) {
     Optional<String> pdfContent = pdf.getContent();
     if (!pdfContent.isPresent()) {
-      return Collections.emptySet();
+      return Collections.emptyList();
     }
 
     Map<Rule, BigDecimal> results =
@@ -52,7 +51,7 @@ public class Matcher {
     return mapToMatches(results);
   }
 
-  private Set<Match> mapToMatches(Map<Rule, BigDecimal> results) {
+  private List<Match> mapToMatches(Map<Rule, BigDecimal> results) {
     return results.entrySet().stream()
         .sorted(Map.Entry.comparingByValue())
         .filter(e -> e.getValue().compareTo(BigDecimal.valueOf(75)) > -1)
@@ -64,6 +63,6 @@ public class Matcher {
               return match;
             })
         .peek(m -> LOGGER.info("Match '{}' scored with '{}'", m.getRule().getName(), m.getScore()))
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 }

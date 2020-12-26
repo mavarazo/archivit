@@ -2,11 +2,10 @@ package com.mav.archivit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mav.archivit.ArchivitApplication;
-import com.mav.archivit.model.AuditBuilder;
-import com.mav.archivit.model.MatchBuilder;
+import com.mav.archivit.model.KeywordBuilder;
+import com.mav.archivit.model.Rule;
 import com.mav.archivit.model.RuleBuilder;
-import com.mav.archivit.model.StatusEnum;
-import com.mav.archivit.service.AuditService;
+import com.mav.archivit.service.KeywordService;
 import com.mav.archivit.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,11 +21,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,45 +39,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("integrationtest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
-public class AuditControllerIntegTest {
+public class KeywordControllerIntegTest {
 
   public static final String LOREM_IPSUM = "Lorem Ipsum";
   public static final String ZOMBIE_IPSUM = "Zombie Ipsum";
   @Autowired private MockMvc mvc;
 
-  @Autowired private AuditService auditService;
+  @Autowired private KeywordService auditService;
   @Autowired private RuleService ruleService;
 
   @Autowired private ObjectMapper objectMapper;
+  private Rule rule;
 
   @BeforeAll
   void setup() {
-    auditService.save(
-        AuditBuilder.anAudit()
-            .withFilePath(LOREM_IPSUM)
-            .withStatus(StatusEnum.DONE)
-            .withMatches(
-                Collections.singletonList(
-                    MatchBuilder.aMatch()
-                        .withRule(
-                            ruleService.save(RuleBuilder.aRule().withName(LOREM_IPSUM).build()))
-                        .withScore(BigDecimal.valueOf(100))
-                        .build()))
-            .build());
+    rule =
+        ruleService.save(
+            RuleBuilder.aRule()
+                .withName(LOREM_IPSUM)
+                .withTargetPath(LOREM_IPSUM)
+                .withKeywords(
+                    Collections.singletonList(
+                        KeywordBuilder.aKeyword().withName(LOREM_IPSUM).build()))
+                .build());
+  }
+
+  @Test
+  void testSave() throws Exception {
+    // Arrange
+    ImmutableKeywordDto keywordDto = ImmutableKeywordDto.builder().name(ZOMBIE_IPSUM).build();
+
+    // Act && Assert
+    mvc.perform(
+            post("/api/rule/" + rule.getId() + "/keyword/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(keywordDto)))
+        .andExpect(status().isCreated())
+        .andExpect(
+            header().string("Location", containsString("api/rule/" + rule.getId() + "/keyword")))
+        .andExpect(jsonPath("$.name", is(ZOMBIE_IPSUM)));
   }
 
   @Test
   void testUpdate() throws Exception {
     // Arrange
-    ImmutableAuditDto auditDto =
-        ImmutableAuditDto.builder().filePath(LOREM_IPSUM).status(StatusEnum.RETRY).build();
+    ImmutableKeywordDto keywordDto = ImmutableKeywordDto.builder().name(ZOMBIE_IPSUM).build();
 
     // Act && Assert
     mvc.perform(
-            put("/api/audit/1")
+            put("/api/rule/" + rule.getId() + "/keyword/" + rule.getKeywords().get(0).getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(auditDto)))
+                .content(objectMapper.writeValueAsBytes(keywordDto)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status", is(StatusEnum.RETRY.toString())));
+        .andExpect(jsonPath("$.name", is(ZOMBIE_IPSUM)));
   }
 }

@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class FileCollectorTask {
@@ -70,7 +69,7 @@ public class FileCollectorTask {
         continue;
       }
 
-      Set<Match> matches = auditing.process();
+      List<Match> matches = auditing.process();
 
       if (matches.size() == 1) {
         matches.stream()

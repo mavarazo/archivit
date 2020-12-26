@@ -14,7 +14,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,9 +39,8 @@ class AuditServiceImplTest {
             .withFilePath("fancy/path/to/a file.pdf")
             .withStatus(StatusEnum.DONE)
             .withMatches(
-                new HashSet<>(
-                    Collections.singletonList(
-                        MatchBuilder.aMatch().withScore(BigDecimal.valueOf(100)).build())))
+                Collections.singletonList(
+                    MatchBuilder.aMatch().withScore(BigDecimal.valueOf(100)).build()))
             .build();
 
     auditRepository = mock(AuditRepository.class);

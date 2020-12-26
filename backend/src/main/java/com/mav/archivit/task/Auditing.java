@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Set;
 
 public class Auditing {
 
@@ -45,7 +44,7 @@ public class Auditing {
     return true;
   }
 
-  public Set<Match> process() {
+  public List<Match> process() {
     if (!isProcessable()) {
       return audit.getMatches();
     }

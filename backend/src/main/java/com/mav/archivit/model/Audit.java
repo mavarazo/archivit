@@ -1,13 +1,14 @@
 package com.mav.archivit.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "audits")
@@ -21,8 +22,8 @@ public class Audit extends AbstractModel {
 
   private StatusEnum status = StatusEnum.OPEN;
 
-  @OneToMany(mappedBy = "audit")
-  private Set<Match> matches = new HashSet<>();
+  @OneToMany(mappedBy = "audit", cascade = CascadeType.ALL)
+  private List<Match> matches = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -48,11 +49,11 @@ public class Audit extends AbstractModel {
     this.status = status;
   }
 
-  public Set<Match> getMatches() {
+  public List<Match> getMatches() {
     return matches;
   }
 
-  public void setMatches(Set<Match> matches) {
+  public void setMatches(List<Match> matches) {
     this.matches = matches;
   }
 }

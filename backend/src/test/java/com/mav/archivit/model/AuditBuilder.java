@@ -1,8 +1,8 @@
 package com.mav.archivit.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class AuditBuilder {
   private Long id;
@@ -10,7 +10,7 @@ public final class AuditBuilder {
   private LocalDateTime updated;
   private String filePath;
   private StatusEnum status = StatusEnum.OPEN;
-  private Set<Match> matches = new HashSet<>();
+  private List<Match> matches = new ArrayList<>();
 
   private AuditBuilder() {}
 
@@ -43,7 +43,7 @@ public final class AuditBuilder {
     return this;
   }
 
-  public AuditBuilder withMatches(Set<Match> matches) {
+  public AuditBuilder withMatches(List<Match> matches) {
     this.matches = matches;
     return this;
   }
