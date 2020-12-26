@@ -1,6 +1,8 @@
 <h2>Audit</h2>
 
 <div *ngFor="let a of audits">
-    {{a.filePath}}<br>
-    {{a.status}}<br>
+  <a [title]="a.filePath " [routerLink]="['/audit', a.id]">
+    {{ a.filePath }}
+  </a><br />
+  {{ a.status }}<br>
 </div>

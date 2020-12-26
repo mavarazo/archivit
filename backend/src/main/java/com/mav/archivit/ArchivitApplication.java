@@ -39,6 +39,7 @@ public class ArchivitApplication {
       Match match = new Match();
       match.setScore(BigDecimal.valueOf(100));
       match.setRule(rule);
+      match.setAudit(audit);
       audit.getMatches().add(match);
       auditService.save(audit);
     };
