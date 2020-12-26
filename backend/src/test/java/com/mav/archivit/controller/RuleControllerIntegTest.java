@@ -86,11 +86,11 @@ class RuleControllerIntegTest {
   @Test
   void testSave() throws Exception {
     // Arrange
-    ImmutableRuleDto ruleDto =
-        ImmutableRuleDto.builder()
+    ImmutableRuleFormDto ruleDto =
+        ImmutableRuleFormDto.builder()
             .name(LOREM_IPSUM)
             .targetPath(LOREM_IPSUM)
-            .addKeywords(ImmutableKeywordDto.builder().name(LOREM_IPSUM).build())
+            .addKeywords(ImmutableKeywordFormDto.builder().name(LOREM_IPSUM).build())
             .build();
 
     // Act && Assert
@@ -108,8 +108,8 @@ class RuleControllerIntegTest {
   @Test
   void testUpdate() throws Exception {
     // Arrange
-    ImmutableRuleDto ruleDto =
-        ImmutableRuleDto.builder().name(ZOMBIE_IPSUM).targetPath(LOREM_IPSUM).build();
+    ImmutableRuleFormDto ruleDto =
+        ImmutableRuleFormDto.builder().name(ZOMBIE_IPSUM).targetPath(LOREM_IPSUM).build();
 
     // Act && Assert
     mvc.perform(

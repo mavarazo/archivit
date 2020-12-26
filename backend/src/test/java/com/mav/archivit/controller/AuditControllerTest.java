@@ -39,6 +39,7 @@ class AuditControllerTest {
   void testIndex() throws Exception {
     // Arrange
     Audit audit = new Audit();
+    audit.setId(1L);
     audit.setFilePath("fancy/path/to/a file.pdf");
 
     doReturn(Collections.singletonList(audit)).when(service).findAll();
@@ -64,6 +65,7 @@ class AuditControllerTest {
   void testGet_ok() throws Exception {
     // Arrange
     Audit audit = new Audit();
+    audit.setId(1L);
     audit.setFilePath("fancy/path/to/a file.pdf");
 
     doReturn(Optional.of(audit)).when(service).findById(any());

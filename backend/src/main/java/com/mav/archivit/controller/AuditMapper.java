@@ -21,5 +21,5 @@ public interface AuditMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "updated", ignore = true)
   @Mapping(target = "matches", ignore = true)
-  void toModel(AuditDto auditDto, @MappingTarget Audit audit);
+  void toModel(AuditFormDto auditDto, @MappingTarget Audit audit);
 }

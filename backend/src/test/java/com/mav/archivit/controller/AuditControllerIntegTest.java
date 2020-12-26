@@ -68,8 +68,8 @@ public class AuditControllerIntegTest {
   @Test
   void testUpdate() throws Exception {
     // Arrange
-    ImmutableAuditDto auditDto =
-        ImmutableAuditDto.builder().filePath(LOREM_IPSUM).status(StatusEnum.RETRY).build();
+    ImmutableAuditFormDto auditDto =
+          ImmutableAuditFormDto.builder().filePath(LOREM_IPSUM).status(StatusEnum.RETRY).build();
 
     // Act && Assert
     mvc.perform(

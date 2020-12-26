@@ -20,11 +20,11 @@ public interface RuleMapper {
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "updated", ignore = true)
-  Rule toModel(RuleDto rule);
+  Rule toModel(RuleFormDto rule);
 
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "updated", ignore = true)
   @Mapping(target = "keywords", ignore = true)
-  void toModel(RuleDto ruleDto, @MappingTarget Rule rule);
+  void toModel(RuleFormDto ruleDto, @MappingTarget Rule rule);
 }

@@ -21,13 +21,13 @@ public interface KeywordMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "rule", ignore = true)
   @Mapping(target = "updated", ignore = true)
-  Keyword toModel(KeywordDto keyword);
+  Keyword toModel(KeywordFormDto keyword);
 
-  List<Keyword> toModel(List<KeywordDto> keyword);
+  List<Keyword> toModel(List<KeywordFormDto> keyword);
 
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "rule", ignore = true)
   @Mapping(target = "updated", ignore = true)
-  void toModel(KeywordDto keywordDto, @MappingTarget Keyword keyword);
+  void toModel(KeywordFormDto keywordDto, @MappingTarget Keyword keyword);
 }

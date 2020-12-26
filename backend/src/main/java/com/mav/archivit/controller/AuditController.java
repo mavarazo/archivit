@@ -50,7 +50,7 @@ public class AuditController {
   @PutMapping("/{id}")
   @ResponseBody
   public ResponseEntity<AuditDto> update(
-      @Validated @NonNull @RequestBody AuditDto auditDto, @PathVariable("id") Long id) {
+      @Validated @NonNull @RequestBody AuditFormDto auditDto, @PathVariable("id") Long id) {
     return auditService
         .findById(id)
         .map(

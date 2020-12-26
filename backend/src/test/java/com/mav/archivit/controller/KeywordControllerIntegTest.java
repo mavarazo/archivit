@@ -67,7 +67,7 @@ public class KeywordControllerIntegTest {
   @Test
   void testSave() throws Exception {
     // Arrange
-    ImmutableKeywordDto keywordDto = ImmutableKeywordDto.builder().name(ZOMBIE_IPSUM).build();
+    ImmutableKeywordFormDto keywordDto = ImmutableKeywordFormDto.builder().name(ZOMBIE_IPSUM).build();
 
     // Act && Assert
     mvc.perform(
@@ -83,7 +83,7 @@ public class KeywordControllerIntegTest {
   @Test
   void testUpdate() throws Exception {
     // Arrange
-    ImmutableKeywordDto keywordDto = ImmutableKeywordDto.builder().name(ZOMBIE_IPSUM).build();
+    ImmutableKeywordFormDto keywordDto = ImmutableKeywordFormDto.builder().name(ZOMBIE_IPSUM).build();
 
     // Act && Assert
     mvc.perform(

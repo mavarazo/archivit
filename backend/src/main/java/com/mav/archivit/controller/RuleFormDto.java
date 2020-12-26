@@ -8,15 +8,13 @@ import org.immutables.value.Value;
 import java.util.List;
 
 @Value.Immutable
-@JsonSerialize(as = ImmutableRuleDto.class)
-@JsonDeserialize(as = ImmutableRuleDto.class)
-public interface RuleDto {
-
-  Long getId();
+@JsonSerialize(as = ImmutableRuleFormDto.class)
+@JsonDeserialize(as = ImmutableRuleFormDto.class)
+public interface RuleFormDto {
 
   String getName();
 
   String getTargetPath();
 
-  List<KeywordDto> getKeywords();
+  List<KeywordFormDto> getKeywords();
 }

@@ -9,11 +9,9 @@ import org.immutables.value.Value;
 import java.util.List;
 
 @Value.Immutable
-@JsonSerialize(as = ImmutableAuditDto.class)
-@JsonDeserialize(as = ImmutableAuditDto.class)
-public interface AuditDto {
-
-  Long getId();
+@JsonSerialize(as = ImmutableAuditFormDto.class)
+@JsonDeserialize(as = ImmutableAuditFormDto.class)
+public interface AuditFormDto {
 
   String getFilePath();
 

@@ -34,7 +34,7 @@ public class KeywordController {
   @PostMapping("/")
   @ResponseBody
   public ResponseEntity<KeywordDto> save(
-      @Validated @NonNull @RequestBody KeywordDto keywordDto,
+      @Validated @NonNull @RequestBody KeywordFormDto keywordDto,
       @PathVariable("rule_id") Long ruleId) {
 
     return ruleService
@@ -57,7 +57,7 @@ public class KeywordController {
   @PutMapping("/{id}")
   @ResponseBody
   public ResponseEntity<KeywordDto> update(
-      @Validated @NonNull @RequestBody KeywordDto keywordDto, @PathVariable("id") Long id) {
+      @Validated @NonNull @RequestBody KeywordFormDto keywordDto, @PathVariable("id") Long id) {
 
     return keywordService
         .findById(id)

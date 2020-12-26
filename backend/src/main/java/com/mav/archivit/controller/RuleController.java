@@ -52,7 +52,7 @@ public class RuleController {
 
   @PostMapping("/")
   @ResponseBody
-  public ResponseEntity<RuleDto> save(@Validated @NonNull @RequestBody RuleDto ruleDto) {
+  public ResponseEntity<RuleDto> save(@Validated @NonNull @RequestBody RuleFormDto ruleDto) {
     Rule rule = ruleService.save(RuleMapper.INSTANCE.toModel(ruleDto));
 
     return ResponseEntity.created(
@@ -66,7 +66,7 @@ public class RuleController {
   @PutMapping("/{id}")
   @ResponseBody
   public ResponseEntity<RuleDto> update(
-      @Validated @NonNull @RequestBody RuleDto ruleDto, @PathVariable("id") Long id) {
+      @Validated @NonNull @RequestBody RuleFormDto ruleDto, @PathVariable("id") Long id) {
     return ruleService
         .findById(id)
         .map(
