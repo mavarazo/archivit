@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
 
@@ -22,6 +23,7 @@ public class ArchivitApplication {
   }
 
   @Bean
+  @Profile("dev")
   ApplicationRunner init(RuleService ruleService, AuditService auditService) {
     return args -> {
       Rule rule = new Rule();
