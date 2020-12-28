@@ -1,8 +1,21 @@
 <h2>Audit</h2>
 
-<div *ngFor="let a of audits">
-  <a [title]="a.filePath " [routerLink]="['/audit', a.id]">
-    {{ a.filePath }}
-  </a><br />
-  {{ a.status }}<br>
-</div>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>PDF</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of audits">
+      <td>
+        <a [title]="a.filePath " [routerLink]="['/audit', a.id]">
+          {{ a.filePath }}</a>
+      </td>
+      <td>
+        {{ a.status }}
+      </td>
+    </tr>
+  </tbody>
+</table>

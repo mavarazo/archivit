@@ -1,7 +1,30 @@
-{{ audit.filePath }}<br />
-{{ audit.status }}<br>
+<ng-container *ngIf="audit">
+  <div class="card">
+    <div class="card-body">
+      <form>
+        <fieldset disabled>
+          <div class="mb-3">
+            <label for="filepath" class="form-label">Filepath</label>
+            <div class="col-sm-10">
 
-<div *ngFor="let m of audit.matches">
-    {{ m.score }}<br>
-</div>
+              <input type="text" id="filepath" class="form-control" placeholder="{{ audit.filePath }}">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <div class="col-sm-10">
+              <input type="text" id="status" class="form-control" placeholder="{{ audit.status }}">
+            </div>
+          </div>
+        </fieldset>
+      </form>
 
+      <div class="card-header">
+        Match(es)
+      </div>
+      <ul *ngFor="let m of audit.matches" class="list-group list-group-flush">
+        <li class="list-group-item">{{ m.score }}</li>
+      </ul>
+    </div>
+  </div>
+</ng-container>

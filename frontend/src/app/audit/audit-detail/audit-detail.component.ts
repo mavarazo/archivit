@@ -9,9 +9,12 @@ import { AuditService } from '../audit.service';
   styleUrls: ['./audit-detail.component.scss'],
 })
 export class AuditDetailComponent implements OnInit {
-audit: Audit;
+  audit: Audit;
 
-  constructor(private auditService: AuditService,  private route: ActivatedRoute) {}
+  constructor(
+    private auditService: AuditService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     const idFromRoute = this.route.snapshot.paramMap.get('id');
