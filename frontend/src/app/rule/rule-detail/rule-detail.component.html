@@ -1,0 +1,36 @@
+<ng-container *ngIf="rule">
+
+    <div class="mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h6 class="font-14">Name:</h6>
+          <p class="text-sm lh-150">{{ rule.name }}</p>
+        </div>
+        <div class="col-md">
+          <h6 class="font-14">Target path:</h6>
+          <p class="text-sm lh-150">{{ rule.targetPath }}</p>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="mt-4">
+      <div class="row">
+        <div class="col-md">
+          <h6 class="font-14">
+            Keyword
+          </h6>
+        </div>
+      </div>
+  
+      <div *ngFor="let k of rule.keywords">
+        <div class="row">
+          <div class="col-md">
+            {{ k.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </ng-container>
+  

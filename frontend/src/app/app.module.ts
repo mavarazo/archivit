@@ -11,6 +11,7 @@ import { AuditListComponent } from './audit/audit-list/audit-list.component';
 import { AuditDetailComponent } from './audit/audit-detail/audit-detail.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RuleListComponent } from './rule/rule-list/rule-list.component';
+import { RuleDetailComponent } from './rule/rule-detail/rule-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RuleListComponent } from './rule/rule-list/rule-list.component';
     AuditListComponent,
     AuditDetailComponent,
     RuleListComponent,
+    RuleDetailComponent,
     
   ],
   imports: [
