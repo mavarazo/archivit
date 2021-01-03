@@ -1,3 +1,6 @@
+import { Rule } from './rule';
+
 export class Match {
-    score: number;
-  }
+  rule: Rule;
+  score: number;
+}
