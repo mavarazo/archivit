@@ -1,0 +1,17 @@
+<h2>Rules</h2>
+
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of rules">
+      <td>
+        <a [title]="r.name " [routerLink]="['/rule', r.id]">
+          {{ r.name }}</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

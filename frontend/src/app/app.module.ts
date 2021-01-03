@@ -10,12 +10,15 @@ import { AppComponent } from './app.component';
 import { AuditListComponent } from './audit/audit-list/audit-list.component';
 import { AuditDetailComponent } from './audit/audit-detail/audit-detail.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RuleListComponent } from './rule/rule-list/rule-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuditListComponent,
-    AuditDetailComponent
+    AuditDetailComponent,
+    RuleListComponent,
+    
   ],
   imports: [
     CommonModule,

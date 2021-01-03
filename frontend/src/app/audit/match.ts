@@ -1,4 +1,4 @@
-import { Rule } from './rule';
+import { Rule } from '../rule/rule';
 
 export class Match {
   rule: Rule;
