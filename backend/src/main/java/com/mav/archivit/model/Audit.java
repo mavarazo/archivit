@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,9 @@ public class Audit extends AbstractModel {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotBlank
   private String filePath;
-
+  
   private StatusEnum status = StatusEnum.OPEN;
 
   @OneToMany(mappedBy = "audit", cascade = CascadeType.ALL)
