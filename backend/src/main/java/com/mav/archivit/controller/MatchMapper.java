@@ -6,7 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(
+    unmappedTargetPolicy = ReportingPolicy.ERROR,
+    uses = {RuleMapper.class})
 public interface MatchMapper {
 
   MatchMapper INSTANCE = Mappers.getMapper(MatchMapper.class);

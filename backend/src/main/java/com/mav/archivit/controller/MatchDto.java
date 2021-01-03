@@ -12,5 +12,7 @@ import java.math.BigDecimal;
 @JsonDeserialize(as = ImmutableMatchDto.class)
 public interface MatchDto {
 
+  RuleDto getRule();
+
   BigDecimal getScore();
 }

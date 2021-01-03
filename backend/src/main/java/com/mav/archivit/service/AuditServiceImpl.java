@@ -1,14 +1,16 @@
 package com.mav.archivit.service;
 
 import com.mav.archivit.model.Audit;
+import com.mav.archivit.model.Match;
 import com.mav.archivit.repository.AuditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuditServiceImpl implements AuditService {
@@ -22,7 +24,17 @@ public class AuditServiceImpl implements AuditService {
 
   @Override
   public List<Audit> findAll() {
-    return new ArrayList<>(auditRepository.findAll());
+    return auditRepository.findAll().stream()
+        .map(
+            audit -> {
+              audit.getMatches().sort(Comparator.comparing(Match::getId));
+              return audit;
+            })
+        .sorted(
+            Comparator.comparing(Audit::getId)
+                .thenComparing(Audit::getCreated)
+                .thenComparing(Audit::getUpdated))
+        .collect(Collectors.toList());
   }
 
   @Override
