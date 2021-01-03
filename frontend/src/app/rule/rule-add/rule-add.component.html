@@ -1,0 +1,15 @@
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+
+  <div class="mt-4">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" formControlName="name">
+  </div>
+
+  <div class="mt-4">
+    <label for="targetPath" class="form-label">Target Path</label>
+    <input type="text" class="form-control" id="targetPath" formControlName="targetPath" aria-describedby="targetPathHelp">
+    <div id="targetPathHelp" class="form-text">Relative path to target folder.</div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

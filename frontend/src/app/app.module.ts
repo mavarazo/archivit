@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DataTablesModule } from 'angular-datatables';
 
@@ -12,6 +13,7 @@ import { AuditDetailComponent } from './audit/audit-detail/audit-detail.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RuleListComponent } from './rule/rule-list/rule-list.component';
 import { RuleDetailComponent } from './rule/rule-detail/rule-detail.component';
+import { RuleAddComponent } from './rule/rule-add/rule-add.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,7 @@ import { RuleDetailComponent } from './rule/rule-detail/rule-detail.component';
     AuditDetailComponent,
     RuleListComponent,
     RuleDetailComponent,
-    
+    RuleAddComponent,
   ],
   imports: [
     CommonModule,
@@ -28,9 +30,11 @@ import { RuleDetailComponent } from './rule/rule-detail/rule-detail.component';
     HttpClientModule,
     DataTablesModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
