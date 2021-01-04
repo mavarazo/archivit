@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { RuleService } from '../rule.service';
 
@@ -9,7 +13,7 @@ import { RuleService } from '../rule.service';
   styleUrls: ['./rule-add.component.scss'],
 })
 export class RuleAddComponent implements OnInit {
-  addForm: FormGroup;
+  form: FormGroup;
 
   constructor(
     private ruleService: RuleService,
@@ -18,15 +22,17 @@ export class RuleAddComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.addForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       name: [null, Validators.required],
       targetPath: [null, Validators.required],
     });
   }
 
   onSubmit() {
-    this.ruleService.add(this.addForm.value).subscribe((rule) => {
-      this.router.navigate(['rule', rule.id]);
-    });
+    if (this.form.valid) {
+      this.ruleService.add(this.form.value).subscribe((rule) => {
+        this.router.navigate(['rule', rule.id]);
+      });
+    }
   }
 }

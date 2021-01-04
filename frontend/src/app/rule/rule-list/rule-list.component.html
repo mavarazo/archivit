@@ -1,8 +1,6 @@
-<h2>Rules</h2>
+<div class="d-flex"><h2>Rules</h2> <a [routerLink]="['/rule-add']" class="ms-auto">Add</a></div>
 
-<a [routerLink]="['/rule-add']">Add</a>
-
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
@@ -17,3 +15,5 @@
     </tr>
   </tbody>
 </table>
+
+<a [routerLink]="['/rule-add']" class="position-absolute bottom-0 end-0 translate-middle btn btn-sm btn-success rounded-pill" style="width: 2rem; height: 2rem;">+</a>
