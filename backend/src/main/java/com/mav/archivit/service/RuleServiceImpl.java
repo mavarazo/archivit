@@ -4,6 +4,7 @@ import com.mav.archivit.model.Keyword;
 import com.mav.archivit.model.Rule;
 import com.mav.archivit.repository.RuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,22 +24,16 @@ public class RuleServiceImpl implements RuleService {
   }
 
   @Override
+  @Transactional
   public List<Rule> findAll() {
-    List<Rule> rules = ruleRepository.findAll();
-    return rules.stream()
+    return ruleRepository
+        .findAll(Sort.by("id").and(Sort.by("created").and(Sort.by("updated"))))
+        .stream()
         .map(
             rule -> {
-              rule.getKeywords()
-                  .sort(
-                      Comparator.comparing(Keyword::getId)
-                          .thenComparing(Keyword::getCreated)
-                          .thenComparing(Keyword::getUpdated));
+              rule.getKeywords().sort(Comparator.comparing(Keyword::getId));
               return rule;
             })
-        .sorted(
-            Comparator.comparing(Rule::getId)
-                .thenComparing(Rule::getCreated)
-                .thenComparing(Rule::getUpdated))
         .collect(Collectors.toList());
   }
 

@@ -21,7 +21,7 @@ public class Audit extends AbstractModel {
 
   @NotBlank
   private String filePath;
-  
+
   private StatusEnum status = StatusEnum.OPEN;
 
   @OneToMany(mappedBy = "audit", cascade = CascadeType.ALL)
