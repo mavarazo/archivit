@@ -5,6 +5,8 @@ import com.mav.archivit.model.AuditBuilder;
 import com.mav.archivit.model.MatchBuilder;
 import com.mav.archivit.model.StatusEnum;
 import com.mav.archivit.repository.AuditRepository;
+import org.mockito.Mockito;
+import org.springframework.data.domain.Sort;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -44,7 +47,7 @@ class AuditServiceImplTest {
             .build();
 
     auditRepository = mock(AuditRepository.class);
-    doReturn(Collections.singletonList(audit)).when(auditRepository).findAll();
+    doReturn(Collections.singletonList(audit)).when(auditRepository).findAll(any(Sort.class));
     doReturn(Optional.of(audit)).when(auditRepository).findById(eq(1L));
 
     sut = spy(new AuditServiceImpl(auditRepository));

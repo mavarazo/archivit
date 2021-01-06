@@ -59,7 +59,7 @@ public class AuditControllerIntegTest {
                 Collections.singletonList(
                     MatchBuilder.aMatch()
                         .withRule(
-                            ruleService.save(RuleBuilder.aRule().withName(LOREM_IPSUM).build()))
+                            ruleService.save(RuleBuilder.aRule().withName(LOREM_IPSUM).withTargetPath(LOREM_IPSUM).build()))
                         .withScore(BigDecimal.valueOf(100))
                         .build()))
             .build());
