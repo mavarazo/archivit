@@ -2,19 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Spring Boot Build') {
             steps {
-                echo 'Building..'
+                dir('backend') {
+                    sh './gradlew assemble'
+                }
             }
         }
-        stage('Test') {
+        stage('Spring Boot Test') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                dir('backend') {
+                    sh './gradlew test'
+                }
             }
         }
     }
