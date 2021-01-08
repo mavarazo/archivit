@@ -1,8 +1,8 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS-15.5.1'
+    triggers {
+        pollSCM '* * * * *'
     }
 
     environment {
@@ -10,46 +10,35 @@ pipeline {
     }
 
     stages {
-        stage('Spring Boot Build') {
+        stage('Backend: Build') {
             steps {
                 dir('backend') {
                     sh './gradlew assemble'
                 }
             }
         }
-        stage('Spring Boot Test') {
+        stage('Backend: Test') {
             steps {
                 dir('backend') {
                     sh './gradlew test'
                 }
             }
         }
-        stage('Frontend Install') {
-            steps { 
-                dir('frontend') {
-                    sh 'npm install --cache npm_cache'
-                } 
-            }
-        }
-        stage('Lint') {
-            steps { 
-                dir('frontend') {
-                    // sh 'ng lint'
-                    echo 'Lint'
-                }
-            }
-        }
-        stage('Frontend Build') {
-            steps { 
-                dir('frontend') {
-                    sh 'npm run-script build --prod --aot --sm --progress=false'
-                }
-            }
-        }
-        stage('Frontend Test') {
+        stage('Backend: Build Docker Image') {
             steps {
-                dir('frontend') {
-                    echo 'Test'
+                dir('backend') {
+                    sh './gradlew docker'
+                }
+            }
+        }
+        stage('Backend: Push Docker Image') {
+            environment {
+                DOCKER_HUB_LOGIN = credentials('dockerhub')
+            }
+            steps {
+                dir('backend') {
+                    sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
+                    sh './gradlew dockerPush'
                 }
             }
         }
