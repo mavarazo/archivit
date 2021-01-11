@@ -3,6 +3,4 @@
 .dockerignore
 .gitignore
 docker-compose.yml
-venv/
-
-archive/
+**/application-**.yml

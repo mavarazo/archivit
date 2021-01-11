@@ -27,18 +27,7 @@ pipeline {
         stage('Backend: Build Docker Image') {
             steps {
                 dir('backend') {
-                    sh './gradlew docker'
-                }
-            }
-        }
-        stage('Backend: Push Docker Image') {
-            environment {
-                DOCKER_HUB_LOGIN = credentials('dockerhub')
-            }
-            steps {
-                dir('backend') {
-                    sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                    sh './gradlew dockerPush'
+                    sh './gradlew bootBuildImage'
                 }
             }
         }
