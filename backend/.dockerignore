@@ -1,6 +1,6 @@
-.git/
-.env
-.dockerignore
-.gitignore
-docker-compose.yml
-**/application-**.yml
+# Exclude everything:
+#
+*
+
+!archivit-*.jar
+!application.yml
