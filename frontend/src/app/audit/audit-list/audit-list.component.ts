@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 import { Audit } from '../audit';
 import { AuditService } from '../audit.service';
+import { faRedo } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-audit-list',
@@ -14,6 +15,8 @@ export class AuditListComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
+
+  faRedo = faRedo;
 
   constructor(private auditService: AuditService) {}
 

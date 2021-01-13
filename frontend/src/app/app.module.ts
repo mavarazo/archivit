@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RuleListComponent } from './rule/rule-list/rule-list.component';
 import { RuleDetailComponent } from './rule/rule-detail/rule-detail.component';
 import { RuleAddComponent } from './rule/rule-add/rule-add.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RuleAddComponent } from './rule/rule-add/rule-add.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

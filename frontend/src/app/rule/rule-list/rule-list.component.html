@@ -1,19 +1,26 @@
-<div class="d-flex"><h2>Rules</h2> <a [routerLink]="['/rule-add']" class="ms-auto">Add</a></div>
+<div class="d-flex">
+  <h2>Rules</h2>
+  <div class="ms-auto"><a [routerLink]="['/rule-add']" class="btn btn-primary">
+      <fa-icon [icon]="faPlus"></fa-icon> Add Rule
+    </a></div>
+</div>
 
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
+      <th width="5%">Action</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let r of rules">
       <td>
-        <a [title]="r.name " [routerLink]="['/rule', r.id]">
-          {{ r.name }}</a>
+        <a [routerLink]="['/rule', r.id]"> {{ r.name }}</a>
+      </td>
+      <td class="">
+        <a [routerLink]="['/rule-edit', r.id]" class="text-warning me-3"><fa-icon [icon]="faPen"></fa-icon></a>
+        <a [routerLink]="['/rule-delete', r.id]" class="text-danger me-3"><fa-icon [icon]="faTrash"></fa-icon></a>
       </td>
     </tr>
   </tbody>
 </table>
-
-<a [routerLink]="['/rule-add']" class="position-absolute bottom-0 end-0 translate-middle btn btn-sm btn-success rounded-pill" style="width: 2rem; height: 2rem;">+</a>

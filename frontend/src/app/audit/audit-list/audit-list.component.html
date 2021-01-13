@@ -5,16 +5,19 @@
     <tr>
       <th>PDF</th>
       <th>Status</th>
+      <th width="5%">Action</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let a of audits">
       <td>
-        <a [title]="a.filePath " [routerLink]="['/audit', a.id]">
-          {{ a.filePath }}</a>
+        <a [routerLink]="['/audit', a.id]">{{ a.filePath }}</a>
       </td>
       <td>
         {{ a.status }}
+      </td>
+      <td>
+        <a [routerLink]="['/audit-retry', a.id]" class="text-warning me-3"><fa-icon [icon]="faRedo"></fa-icon></a>
       </td>
     </tr>
   </tbody>

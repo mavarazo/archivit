@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Rule } from '../rule';
 import { RuleService } from '../rule.service';
+import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-rule-list',
@@ -13,6 +14,10 @@ export class RuleListComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
+
+  faPlus = faPlus;
+  faPen = faPen;
+  faTrash = faTrash;
 
   constructor(private ruleService: RuleService) {}
 
