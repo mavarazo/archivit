@@ -7,8 +7,7 @@ workspace:
 
 steps:
 - name: build
-  image: java:openjdk-11-alpine
+  image: gradle:jdk11
   commands:
-  - ./gradlew clean 
-  - ./gradlew build --parallel
-  
+  - gradle assemble
+  - gradle check
