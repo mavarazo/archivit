@@ -11,3 +11,4 @@ steps:
   commands:
   - ./gradlew clean 
   - ./gradlew build --parallel
+  
