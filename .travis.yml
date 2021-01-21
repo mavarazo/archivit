@@ -7,8 +7,7 @@ script:
   - cd backend
   - ./gradlew assemble
   - ./gradlew check
-  - ./gradlew bootBuildImage
-  - docker tag docker.io/library/archivit $DOCKER_USERNAME/archivit-backend
+  - ./gradlew bootBuildImage --imageName=$DOCKER_USERNAME/archivit-backend
 
 deploy:
   provider: script
