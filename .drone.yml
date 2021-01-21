@@ -9,3 +9,15 @@ steps:
   - cd backend/
   - ./gradlew assemble
   - ./gradlew check
+
+- name: docker
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: registry_username
+    password:
+      from_secret: registry_password
+    repo: localhost:10130/archivit/backend
+    registry: localhost:10130
+    dockerfile: backend/Dockerfile
+    insecure: true
