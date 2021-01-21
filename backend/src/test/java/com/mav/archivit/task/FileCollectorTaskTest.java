@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,17 +154,17 @@ class FileCollectorTaskTest {
                       .withName("Lorem Ipsum")
                       .withTargetPath("Lorem")
                       .withKeywords(
-                              Arrays.asList(
-                                  KeywordBuilder.aKeyword().withName("Lorem").build(),
-                                  KeywordBuilder.aKeyword().withName("Ipsum").build()))
+                          Arrays.asList(
+                              KeywordBuilder.aKeyword().withName("Lorem").build(),
+                              KeywordBuilder.aKeyword().withName("Ipsum").build()))
                       .build(),
                   RuleBuilder.aRule()
                       .withName("Zombie Ipsum")
                       .withTargetPath("Zombie")
                       .withKeywords(
-                              Arrays.asList(
-                                  KeywordBuilder.aKeyword().withName("Zombie").build(),
-                                  KeywordBuilder.aKeyword().withName("Ipsum").build()))
+                          Arrays.asList(
+                              KeywordBuilder.aKeyword().withName("Zombie").build(),
+                              KeywordBuilder.aKeyword().withName("Ipsum").build()))
                       .build()))
           .when(ruleService)
           .findAll();
