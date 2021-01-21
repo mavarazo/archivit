@@ -14,10 +14,8 @@ steps:
   image: plugins/docker
   settings:
     username: 
-      from_secret: registry_username
+      from_secret: dockerhub_username
     password:
-      from_secret: registry_password
-    repo: localhost:10130/archivit/backend
-    registry: localhost:10130
+      from_secret: dockerhub_password
+    repo: mavarazo/archivit-backend
     dockerfile: backend/Dockerfile
-    insecure: true
