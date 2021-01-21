@@ -2,23 +2,14 @@ language: java
 
 jdk:
   - openjdk11
+  
+script:
+  - cd backend
+  - ./gradlew build
+  - ./gradlew check
+  - ./gradlew bootBuildImage
+  - docker tag docker.io/library/archivit $DOCKER_USERNAME/archivit-backend
 
-jobs:
-  include:
-    - stage: build
-      script:
-        - cd backend
-        - ./gradlew build
-    - stage: test
-      script: 
-        - cd backend
-        - ./gradlew check
-    - stage: build image
-      script:
-        - cd backend
-        - ./gradlew bootBuildImage
-    - stage: deploy
-      script: 
-        - cd backend
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push mavarazo/archivit-backend
+deploy:
+  provider: script
+  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker push $DOCKER_USERNAME/archivit-backend
