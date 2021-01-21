@@ -5,7 +5,7 @@ jdk:
   
 script:
   - cd backend
-  - ./gradlew build
+  - ./gradlew assemble
   - ./gradlew check
   - ./gradlew bootBuildImage
   - docker tag docker.io/library/archivit $DOCKER_USERNAME/archivit-backend
